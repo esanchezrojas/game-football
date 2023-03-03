@@ -3,12 +3,14 @@ var soundBall;
 var soundReferee;
 var soundEnviroment;
 var scoreText;
-var currentScore = 9;
+var currentScore;
 var twent2;
 var colisionGoalkeper = false;
 var x, y;
+var bx,by;
 var goles = 0;
 var isGoal = false;
+var isShot = false;
 var finalScore;
 var style = {
   font: "70px calculator",
@@ -25,6 +27,7 @@ class Game extends Phaser.Scene {
   }
 
   init() {
+    
     console.log("esta iniciando el juego");
     currentScore = 3;
   }
@@ -54,7 +57,7 @@ class Game extends Phaser.Scene {
      soundEnviroment = this.sound.add('sound3');
      soundEnviroment.volume = 0.5; // Volumen a la mitad
      soundEnviroment.loop = true; // Repetir el sonido
-     soundEnviroment.play();
+     
      
     //game screen collision
     this.physics.world.setBoundsCollision(false, false, false, true);
@@ -110,15 +113,46 @@ class Game extends Phaser.Scene {
       props: {
         x: {
           value: 505,
-          duration: 1400,
+          duration: 1300,
         },
       },
       repeat: -1,
       yoyo: true,
       onStart: () => {
         console.log("inicio");
-
+        soundEnviroment.play();
         this.goalkeeper.anims.play("left", true);
+       
+      },
+      onUpdate: () =>{
+        if(isShot){
+        if(currentScore == 3 || currentScore == 2) {
+
+          console.log(this.ballSmall.x)
+          this.goalkeeper.x = this.ballSmall.x;
+          if(this.goalkeeper.x < 190  ){
+            this.goalkeeper.x = 190;
+           // this.goalkeeper.setVelocityX(200)
+          }else if(this.goalkeeper.x > 530){
+            this.goalkeeper.x = 530;
+          }
+        
+         // this.goalkeeper.x = this.ballSmall.x;
+          //this.ballSmall.setVelocityX(200);
+
+          
+            
+          } else if(currentScore == 1){
+           
+           // this.goalkeeper.x = non;
+            if(this.goalkeeper.x < 150  ){
+              this.goalkeeper.x = 190;
+             // this.goalkeeper.setVelocityX(200)
+            }else if(this.goalkeeper.x > 550){
+              this.goalkeeper.x = 510;
+            }
+          }
+        }
       },
       // onYoyo: () => console.log("yoyo"),
       // onComplete: () => console.log("complete"),
@@ -140,15 +174,19 @@ class Game extends Phaser.Scene {
   }
 
   animarObjeto(pointer) {
-   
 
+    isShot = true;
+   
+    bx = 0.7;
+    by = 0.7;
     let tween1 = this.tweens.add({
       targets: this.ballSmall,
       //duration: 2000,
 
       props: {
-      //  scaleX: { value: this.bx, duration: 500, ease: 'Power2' },
-      // scaleY:{ value: this.by, duration: 500, ease: 'Power2' },
+        scaleX: { value:bx },
+        scaleY:{ value: by },
+        //scaleY:{ value: by, duration: 500, ease: 'Power2' },
        
         y: {
           value: pointer.y,
@@ -165,6 +203,9 @@ class Game extends Phaser.Scene {
       // ease: 'Power2',
       hold: 2000,
       onStart: () => {
+        //this.ballSmall.setScale(0.8);
+     
+
         soundBall.play();
       
       },
@@ -204,6 +245,9 @@ class Game extends Phaser.Scene {
             this.ballSmall.y > 220 &&
             this.ballSmall.y < 430
           ) {
+
+           
+
             if(colisionGoalkeper){
               console.log('lo tapo el arquero');
              }else{
@@ -266,6 +310,8 @@ class Game extends Phaser.Scene {
         
         finalScore.text = "Goles "+goles;
         console.log('cant goles '+goles)
+        this.ballSmall.setScale(1);
+        isShot = false;
         
       },
       onRepeat: () => console.log("repeat"),
