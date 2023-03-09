@@ -21,16 +21,176 @@
     {
         margin: 0;
         padding: 0;
-        background: #000000;
+      /*  background: #000000;*/
       /* font-family: calculator;*/
        
     }
 
-    
- 
+    .offer {
+    display: none;
+    z-index: 1;
+    background: #000000c2;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.offer img.offer_image {
+    background-color: #0a1440;
+    max-width: 95%;
+    margin: 4rem auto;
+    display: block;
+}
+
+
+
+
 
     
-   
+#miBoton {
+  width: 200px;
+  height: 100px;
+  border: none;
+  color: white;
+  font-size: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+
+
+#tryAgain{
+ /* background:#003cff;*/
+ background: #007991;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to top, #78ffd6, #007991);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to top, #78ffd6, #007991); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  cursor: pointer;
+  border: none; 
+  padding: 16px 32px;
+  color: rgb(0, 0, 0);
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  border-radius: 25px;
+}
+
+#tryAgain:hover {
+ /* background: rgba(0,242,250,.11);*/
+    color: #fff;
+    border-radius: 25px;
+    box-shadow: 0 0 5px #5aff90, 0 0 5px #5aff90, 0 0 30px #5aff90, 0 0 5px #5aff90;
+}
+
+ /* #promo{
+  background-image: url("//static.wplay.co/offers/ofertas/assets/images/spin/50mil-ndb.webp");
+  height: 423px;
+  width: 413px;
+  border-radius: 15px;
+  border: none; 
+  -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both
+  
+ } */
+
+ .promo{
+  background-image: url("//static.wplay.co/offers/ofertas/assets/images/spin/50mil-ndb.webp");
+  height: 423px;
+  width: 413px;
+  border-radius: 15px;
+  border: none; 
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+ }
+
+ .offer img.offer_image {
+    background-color: #0a1440;
+    max-width: 95%;
+    margin: 4rem auto;
+    display: block;
+}
+
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.tada {
+    -webkit-animation-name: tada;
+    animation-name: tada;
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+@keyframes tada {
+    from {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+    10%, 20% {
+        -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+        transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+    }
+    30%, 50%, 70%, 90% {
+        -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+        transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+    }
+    40%, 60%, 80% {
+        -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+        transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+    }
+    to {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@-webkit-keyframes tada {
+    from {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+    10%, 20% {
+        -webkit-transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+        transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg);
+    }
+    30%, 50%, 70%, 90% {
+        -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+        transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg);
+    }
+    40%, 60%, 80% {
+        -webkit-transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+        transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg);
+    }
+    to {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+.tada {
+    -webkit-animation-name: tada;
+    animation-name: tada;
+}
+
 
    
 </style>
@@ -38,11 +198,17 @@
 
 <body>
    
+   
 
     <div id="phaser-game" style="width: 100%; height: 100vh;"></div>
 
+    
+
+<script src="./src/jquery.min.js"></script>
+
 <script src="./src/phaser.min.js"></script>
     <script src="./src/Game1.js"></script>
+    <script src="./src/spin.js"></script>
    
 
 </body>
