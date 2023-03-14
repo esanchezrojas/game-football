@@ -19,6 +19,7 @@ var isShot = false;
 var finalScore;
 var tryAgain;
 var promo;
+var isRunning = true;
 
 
 var style = {
@@ -201,6 +202,7 @@ class Game extends Phaser.Scene {
       hold: 2000,
       onStart: () => {
         soundBall.play();
+        isRunning = false;
         
       },
       onUpdate: () => {
@@ -239,7 +241,7 @@ class Game extends Phaser.Scene {
         }
       },
       onComplete: () => {
-        
+        isRunning = true;
         this.ballSmall.setVelocityX(0);
         this.ballSmall.x = 365;
         this.ballSmall.y = 510;
@@ -291,7 +293,10 @@ class Game extends Phaser.Scene {
     });
 
     // tween
+    console.log(isRunning)
+    if(isRunning){
     tween1.play();
+    }
    
   }
 
