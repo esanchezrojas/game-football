@@ -7,10 +7,8 @@ var soundEnviroment;
 var soundWin;
 var soundPositive;
 
-
 var scoreText;
 var currentScore = 3;
-var twent2;
 var colisionGoalkeper = false;
 var tweenGoalkeeper;
 var x, y;
@@ -22,7 +20,6 @@ var finalScore;
 var tryAgain;
 var promo;
 
-var win = false;
 
 var style = {
   font: "70px calculator",
@@ -31,20 +28,15 @@ var style = {
 };
 
 class Game extends Phaser.Scene {
-
   constructor() {
     super();
   }
 
-  init() {
-  
-  }
+  init() {}
 
   preload() {
     //resource preloading
     this.load.image("background", "assets/football-mini-game.png");
-    this.load.image("modal", "//static.wplay.co/offers/ofertas/assets/images/spin/50mil-ndb.webp");
-    this.load.image("tryAgain", "assets/try-again.png");
     this.load.image("goal", "assets/goal.png");
     this.load.image("point", "assets/point.png");
     this.load.image("ballSmall", "assets/ball-small.png");
@@ -56,8 +48,14 @@ class Game extends Phaser.Scene {
     this.load.audio("sound1", "./assets/sounds/football.mp3");
     this.load.audio("sound2", "./assets/sounds/referee.mp3");
     this.load.audio("sound3", "./assets/sounds/ambiente.mp3");
-    this.load.audio("soundWin", "//static.wplay.co/offers/ofertas/assets/sounds/win_all_rows.mp3");
-    this.load.audio("soundPositive", "//static.wplay.co/offers/ofertas/assets/sounds/positive.mp3");
+    this.load.audio(
+      "soundWin",
+      "//static.wplay.co/offers/ofertas/assets/sounds/win_all_rows.mp3"
+    );
+    this.load.audio(
+      "soundPositive",
+      "//static.wplay.co/offers/ofertas/assets/sounds/positive.mp3"
+    );
   }
 
   create() {
@@ -69,45 +67,37 @@ class Game extends Phaser.Scene {
     soundEnviroment.volume = 0.5;
     soundEnviroment.loop = true;
 
-   
-      tryAgain = this.add.dom(300, 300, 'button', '', 'Nuevo Intento!');
-      tryAgain.addListener('click');
-      tryAgain.on('click', () => {
-      console.log('Button clicked!');
+    tryAgain = this.add.dom(300, 300, "button", "", "Nuevo Intento!");
+    tryAgain.addListener("click");
+    tryAgain.on("click", () => {
       window.location.reload();
-      
-     });
-
-     tryAgain.node.id = 'tryAgain';
-     tryAgain.setVisible(false);
-
-
-     promo = this.add.dom(162, 70, 'button', '', '');
-     promo.addListener('click');
-     promo.on('click', () => {
-     console.log('promo!');
-     window.open('https://www.wplay.co/registro-casino', '_blank')
     });
 
-    promo.node.id = 'promo';
+    tryAgain.node.id = "tryAgain";
+    tryAgain.setVisible(false);
+
+    promo = this.add.dom(0, 0, "button", "", "");
+    promo.addListener("click");
+    promo.on("click", () => {
+      window.open("https://www.wplay.co/registro-casino", "_blank");
+    });
+
+    promo.node.id = "promo";
     promo.node.classList.add("promo");
     promo.node.classList.add("tada");
     promo.node.classList.add("animated");
-    promo.setVisible(true);
-
+    promo.setVisible(false);
 
     //game screen collision
     this.physics.world.setBoundsCollision(false, false, false, true);
     backgroud = this.add.image(360, 290, "background");
-   // let modal = this.add.image(260, 290, "modal");
-   // modal.setVisible(false)
+
     this.goal = this.add.image(110, 150, "goal");
     this.goal.setScale(0.5);
     this.goal.angle = -30;
     this.goal.setVisible(false);
 
     scoreText = this.add.text(49, 460, currentScore, style);
-    // scoreText.text = currentScore;
 
     finalScore = this.add.text(500, 70, "Goles " + goles, {
       font: "40px Arial",
@@ -140,14 +130,13 @@ class Game extends Phaser.Scene {
     this.physics.add.collider(
       this.ballSmall,
       this.goalkeeper,
-      this.ejecutar,
+      this.runCollision,
       null,
       this
     );
 
     tweenGoalkeeper = this.tweens.add({
       targets: this.goalkeeper,
-      //duration: 2000,
       props: {
         x: {
           value: 505,
@@ -166,7 +155,6 @@ class Game extends Phaser.Scene {
             this.goalkeeper.x = this.ballSmall.x;
             if (this.goalkeeper.x < 190) {
               this.goalkeeper.x = 190;
-              // this.goalkeeper.setVelocityX(200)
             } else if (this.goalkeeper.x > 530) {
               this.goalkeeper.x = 530;
             }
@@ -174,24 +162,9 @@ class Game extends Phaser.Scene {
         }
       },
     });
-
-   
-        //  tryAgain = this.add.image(72, 390, 'tryAgain')
-        //  .setInteractive({ useHandCursor: true })
-        //  .on('pointerdown', () => {
-        //   window.location.reload();
-        //   });  
-        //   tryAgain.setVisible(false);   
     
-        //  button2 = this.add.image(362, 290, 'modal')
-        //  .setInteractive({ useHandCursor: true })
-        // .on('pointerdown', () => {
-        //   window.open('https://www.wplay.co/registro-casino', '_blank')
-        //   console.log('Botón presionado')});
-        //   button2.setVisible(false)
-  
-
-    this.input.on("pointerdown", this.animarObjeto, this);
+    this.input.on("pointerdown", this.animateObject, this);
+    
   }
 
   update() {
@@ -199,17 +172,18 @@ class Game extends Phaser.Scene {
     this.point.y = this.input.mousePointer.y;
   }
 
-  ejecutar() {
-    //console.log("colicionando con el arquero");
+  runCollision() {
     colisionGoalkeper = true;
   }
 
-  animarObjeto(pointer) {
+  animateObject(pointer) {
+  
     isShot = true;
 
     bx = 0.7;
     by = 0.7;
     let tween1 = this.tweens.add({
+
       targets: this.ballSmall,
       props: {
         scaleX: { value: bx },
@@ -227,9 +201,11 @@ class Game extends Phaser.Scene {
       hold: 2000,
       onStart: () => {
         soundBall.play();
+        
       },
-      onYoyo: () => console.log("yoyo"),
       onUpdate: () => {
+        
+        //this.input.mouse.disableContextMenu();
         this.ballSmall.angle += 1; //Girar balon
 
         if (this.ballSmall.x > 365) {
@@ -253,30 +229,18 @@ class Game extends Phaser.Scene {
             this.ballSmall.y < 410
           ) {
             if (colisionGoalkeper) {
-              console.log("lo tapo el arquero");
+        
             } else {
-              console.log("gool");
               isGoal = true;
               this.goal.setVisible(true);
             }
-
-            // console.log("zona de arco");
-
-            if (this.ballSmall.x > 360) {
-              //  console.log("Disparo a el arco hacia la derecha "+" x "+this.ballSmall.x+" Y "+this.ballSmall.y);
-            } else {
-              //   console.log("Disparo a el arco hacia la izquierda "+" X "+this.ballSmall.x+" Y "+this.ballSmall.y);
-            }
           }
         } else {
-          console.log("salio el balon");
-          //  console.log("salio el balon"+" X "+this.ballSmall.x+" Y "+this.ballSmall.y);
         }
       },
       onComplete: () => {
+        
         this.ballSmall.setVelocityX(0);
-        //this.scene.restart();
-        console.log("complete");
         this.ballSmall.x = 365;
         this.ballSmall.y = 510;
         this.ballSmall.setVelocityY(0);
@@ -287,36 +251,31 @@ class Game extends Phaser.Scene {
         this.ballSmall.angle = 0;
 
         if (currentScore <= 0 && isGoal) {
-          
           tween1.pause();
-          //this.ballSmall.pause();
+          this.ballSmall.setVisible(false);
           tweenGoalkeeper.pause();
           this.goalkeeper.anims.pause();
-          backgroud.alpha = 0.5;
-          
-          
-          finalScore.setVisible(true);
-          
+          backgroud.alpha = 0.2;
+          scoreText.alpha = 0.2;
+          this.scene.pause();
+          //finalScore.setVisible(true);
           soundEnviroment.pause();
           promo.setVisible(true);
           soundWin.play();
           soundPositive.play();
-          
-        }else if(currentScore <= 0 && !isGoal){
 
+        } else if (currentScore <= 0 && !isGoal) {
           tween1.pause();
-          //this.ballSmall.pause();
           tweenGoalkeeper.pause();
           this.goalkeeper.anims.pause();
-          backgroud.alpha = 0.5;
+          backgroud.alpha = 0.2;
+          scoreText.alpha = 0.2;
           this.scene.pause();
-          
-          tryAgain.setVisible(true); 
-        
-         
+
+          tryAgain.setVisible(true);
+
           soundEnviroment.pause();
-        }else {
-          console.log("no ha terminado");
+        } else {
           soundReferee.play();
         }
 
@@ -326,23 +285,20 @@ class Game extends Phaser.Scene {
         isGoal = false;
 
         finalScore.text = "Goles " + goles;
-        console.log("cant goles " + goles);
         this.ballSmall.setScale(1);
         isShot = false;
       },
     });
 
-    console.log(tween1);
-
-    // ejecuta el tween
+    // tween
     tween1.play();
+   
   }
+
 
   goles() {
     return (goles = goles + 1);
   }
- 
-
 }
 
 const config = {
@@ -374,5 +330,3 @@ const config = {
 };
 
 const game = new Phaser.Game(config);
-
-console.log("este es el win "+win);
